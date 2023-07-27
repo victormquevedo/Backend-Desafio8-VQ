@@ -9,10 +9,11 @@ import passport from 'passport'
 import MongoStore from 'connect-mongo'
 
 import __dirname from './utils.js'
-import initializePassport from './config/passport-config.js'
+import { initializePassport, initGithub } from './config/passport-config.js'
 
 
-/*-----//_ MongoDB _//-----*/
+
+
 import productModel from './dao/persistence/mongodb/models/products-model.js'
 import chatModel from './dao/persistence/mongodb/models/chat-model.js'
 import productsRouterMongo from './routes/products-router-mongodb.js'
@@ -21,11 +22,7 @@ import viewsRouterMongo from './routes/views-router-mongodb.js'
 import chatRouterMongo from './routes/chat-router-mongodb.js'
 import sessionRouter from './routes/sessions-router.js'
 
-/*-----//_ fileSystem _//-----*/
-/* import productManager from './dao/persistence/file-system/managers/productManager.js'
-import productsRouterFs from './routes/products-router-fs.js'
-import cartsRouterFs from './routes/carts-router-fs.js'
-import viewsRouterFs from './routes/views-router-fs.js' */
+
 
 const app = express()
 const conection = mongoose.connect(config.mongo.url);
@@ -55,6 +52,7 @@ app.use(session({
 }))
 
 initializePassport()
+initGithub()
 app.use(passport.initialize())
 app.use(passport.session())
 
