@@ -75,11 +75,10 @@ export const initializePassport = () => {
         clientID:'Iv1.8c76f5511d5dd00d',
         clientSecret:'5ef1bba4837cf85dca8c9a99740a5f1fdfdbb1c1',
         callbackURL: 'http://localhost:8080/api/session/githubcallback',
-        scope: ["user:email"],
 
     }, async (accesToken, refreshToken, profile, done) => {
         try {
-            let user = await userModel.findOne({ email: profile.emails[0].value })
+            let user = await userModel.findOne({ email: profile._json.email })
 
             if(!user){
                 let newCart = {}
@@ -88,7 +87,7 @@ export const initializePassport = () => {
                 const newUser = {
                         first_name: profile.displayName,
                         last_name: null,
-                        email: profile.emails[0].value,
+                        email: profile._json.email,
                         age: null,
                         password: '',
                         cart: newCart,
